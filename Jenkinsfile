@@ -31,13 +31,7 @@ pipeline {
                 }
             }
         }
-
-        stage('Build') {
-            steps {
-                echo 'No build steps defined.'
-            }
-        }
-
+        
         stage('Staging') {
             when {
                 branch 'staging'
