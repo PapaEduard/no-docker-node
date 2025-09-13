@@ -12,21 +12,28 @@ pipeline {
             }
         }
 
-        stage('Install dependencies') {
+        stage('Start npm') {
             steps {
-                sh 'npm install'
+                script{
+                    sh"""
+                    npm start
+                    """
+                }
             }
         }
 
-        stage('Test') {
+        stage('Test npm') {
             steps {
-                sh 'npm test'
+                script{
+                    sh"""
+                    npm test
+                    """
+                }
             }
         }
 
         stage('Build') {
             steps {
-                // Добавьте шаги сборки, если нужно (например, babel/webpack), иначе оставьте пустым
                 echo 'No build steps defined.'
             }
         }
@@ -36,8 +43,12 @@ pipeline {
                 branch 'staging'
             }
             steps {
-                sh 'chmod +x ./deploy.sh'
-                sh './deploy.sh staging'
+                script{
+                    sh"""
+                    chmod +x ./deploy.sh
+                    ./deploy.sh staging
+                    """
+                }
             }
         }
 
@@ -46,15 +57,18 @@ pipeline {
                 branch 'main'
             }
             steps {
-                sh 'chmod +x ./deploy.sh'
-                sh './deploy.sh production'
+                script{
+                    sh"""
+                    chmod +x ./deploy.sh
+                    ./deploy.sh production
+                    """
+                }
             }
         }
     }
 
     post {
         always {
-            // Можно добавить уведомления, чистку, архивирование логов и т.д.
             echo 'Pipeline finished.'
         }
     }
